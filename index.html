@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <link type="image/x-icon" rel="shortcut icon" href="https://cdn.wzw.cn/favicon.ico" />
+    <meta name="viewport" content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, width=device-width, viewport-fit=cover" />
+    <meta name="applicable-device" content="mobile" />
+    <title>上海市学校分布图</title>
+    <meta name="keywords" content="上海市学校分布图" />
+    <meta name="description" content="上海市学校分布图" />
+  </head>
+  <body>
+    <div id="serviceAreaMapContainer" class="map"></div>
+    <div id="toolbarContainer" class="up">
+        <form id="typeBar">
+            <label><input name="type" type="radio" value=".districts-list" checked><span>省市区查询</span></label>
+            <label class="lng-lat"><input name="type" type="radio" value=".locator-content"><span>经纬度查询</span></label>
+            <label><input name="type" type="radio" value=".custom-search"><span>关键词查询</span></label>
+        </form>
+        <form class="districts-list tool">
+            <label>
+                <span>省</span>
+                <select id="province">
+                    <option>请选择省份</option>
+                </select>
+            </label>
+            <label>
+                <span>市</span>
+                <select id="city">
+                    <option>请选择城市</option>
+                </select>
+            </label>
+            <label>
+                <span>区</span>
+                <select id="district">
+                    <option>请选择区县</option>
+                </select>
+            </label>
+            <label>
+                <span>商圈</span>
+                <select id="biz_area">
+                    <option>请选择商圈</option>
+                </select>
+            </label>
+        </form>
+        <form class="custom-search tool hidden">
+            <label>
+                <span>关键字</span>
+                <input autocomplete="off" id="search" type="text" placeholder="请输入地点关键字" />
+            </label>
+            <label>
+                <span>区域</span>
+                <input autocomplete="off" id="search_district" type="text" placeholder="请在上面输入关键词" readonly disabled />
+            </label>
+        </form>
+        <form class="locator-content tool hidden">
+            <label>
+                <span>经度</span>
+                <input autocomplete="off" type="text" placeholder="格式如121.517798或121°31′4.07″" id="TxtLng" />
+            </label>
+            <label>
+                <span>纬度</span>
+                <input autocomplete="off" type="text" placeholder="格式如31.273252或31°16′23.71″" id="TxtLat" />
+            </label>
+            <button type="button" id="locatorBtnOk">确定</button>
+        </form>
+        <div id="serviceAreaBtnContainer"></div>
+    </div>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://webapi.amap.com/maps?v=1.4.15&plugin=AMap.Driving,AMap.DistrictSearch,AMap.Autocomplete,AMap.Geolocation,AMap.ToolBar,AMap.PlaceSearch&key=f98de2203be7ed5b7b6f8c6066b8b7f5"></script>
+    <script src="https://cdn.wzw.cn/material/nyx.js"></script>
+  </body>
+</html>

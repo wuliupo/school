@@ -1,0 +1,249 @@
+* {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: none;
+    box-shadow: none;
+    background: none;
+    box-sizing: border-box;
+}
+body {
+    font-family: '微软雅黑', 'Microsoft Yahei', 'Hiragino Sans GB', tahoma, arial;
+}
+input[type='text'],
+select {
+    -webkit-appearance: textfield;
+    border: 1px solid #666;
+}
+button,
+input,
+select {
+    outline: 0;
+}
+.hidden {
+    display: none !important;
+}
+.map {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    background-color: #033447;
+}
+.amap-logo {
+    pointer-events: none;
+}
+#toolbarContainer {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 280px;
+    font-size: 12px;
+    border-radius: 4px;
+    line-height: 33px;
+}
+#serviceAreaBtnContainer {
+    margin-top: 10px;
+    background-color: rgba(0, 0, 0, 0.2);
+}
+#serviceAreaBtnContainer input,
+#serviceAreaBtnContainer label {
+    font-size: 12px;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+.footer {
+    position: absolute;
+    left: 0;
+    right: 20px;
+    bottom: 30px;
+    color: #fff;
+}
+.footer img {
+    height: 20px;
+    vertical-align: baseline;
+}
+.footer a {
+    margin: 0 15px;
+    font-size: 12px;
+    color: #fff;
+    display: inline-block;
+}
+.footer a:hover {
+    color: #00aeec;
+}
+.footer .fr {
+    color: #b6bcc0;
+    font-size: 12px;
+    float: right;
+}
+.locator-content p {
+    display: inline;
+    margin-right: 14px;
+}
+.tool {
+    padding: 0 10px 10px;
+    background-color: #FFF;
+}
+.tool label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 12px;
+    line-height: 35px;
+    background-color: #fff;
+    color: #939393;
+}
+.tool input, .tool select {
+    width: calc(100% - 50px);
+    line-height: 20px;
+}
+.tool span {
+    display: inline-block;
+    margin-right: -5px;
+    width: 50px;
+    text-align: center;
+}
+.tool select {
+    border-radius: 0;
+    box-shadow: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-color: #FFF;
+}
+.tool span, .tool input, .tool select {
+    line-height: 35px;
+    padding: 0 5px;
+    border: 1px solid #CCC;
+}
+.tool button {
+    display: block;
+    width: 100%;
+    line-height: 35px;
+    color: #fff;
+    text-align: center;
+    border-radius: 4px;
+    background-color: #4161eb;
+    border: none;
+    font-size: 12px;
+    padding: 0 6px;
+    cursor: pointer;
+}
+.tool button:hover {
+    background-color: #607df8;
+}
+#search_district {
+    color: #666;
+    background-color: #eee;
+}
+#typeBar {
+    display: block;
+    padding-right: 13px;
+    line-height: 40px;
+    background-color: #fff;
+    text-align: center;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+#typeBar .angle-left {
+    position: absolute;
+    left: 7px;
+    top: 0;
+    padding-right: 20px;
+    font-size: 30px;
+    color: #000;
+    text-decoration: none;
+    z-index: 1;
+}
+#typeBar label {
+    height: 40px;
+    line-height: 40px;
+    color: #666;
+    display: inline-block;
+    font-size: 12px;
+    border-bottom: 2px solid #fff;
+    cursor: pointer;
+}
+#typeBar input {
+    opacity: 0;
+}
+#typeBar span:after {
+    content: '';
+    display: inline-block;
+    margin: 0 0 5px 5px;
+    width: 6px;
+    height: 6px;
+    line-height: 20px;
+    font-size: 18px;
+    color: inherit;
+    border-right: 1px solid;
+    border-bottom: 1px solid;
+    -webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
+    vertical-align: middle;
+}
+#typeBar input:checked + span {
+    color: #4161eb;
+}
+#typeBar input:checked + span:after {
+    -webkit-transform: rotate(225deg);
+    transform: rotate(225deg);
+    margin-bottom: 0;
+}
+#serviceAreaBtnContainer input {
+    display: none;
+}
+#serviceAreaBtnContainer label {
+    padding: 0 10px 0 30px;
+    margin-left: 10px;
+    display: inline-block;
+    position: relative;
+}
+#serviceAreaBtnContainer span {
+    margin-left: 2px;
+}
+#serviceAreaBtnContainer span:before {
+    content: '';
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    font-size: 18px;
+    border: 1px solid;
+    border-radius: 100%;
+    background-color: #FFF;
+}
+#serviceAreaBtnContainer input:checked + span:after {
+    content: '';
+    position: absolute;
+    top: 7px;
+    left: 11px;
+    width: 6px;
+    height: 12px;
+    line-height: 20px;
+    font-size: 18px;
+    color: inherit;
+    border-right: 2px solid;
+    border-bottom: 2px solid;
+    -webkit-transform: rotate(30deg);
+    transform: rotate(30deg);
+}
+#toolbarContainer.up .tool {
+    display: none !important;
+}
+#toolbarContainer.up #typeBar span {
+    color: #666 !important;
+}
+#toolbarContainer.up #typeBar span:after {
+    margin-bottom: 5px;
+    -webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
