@@ -5,9 +5,11 @@ var hits = {
     city: '城市',
     district: '区县',
     biz_area: '商圈',
+    site: '学校',
 };
 
 var currentType;
+var currentLevel;
 
 /**
  * 坐标转换
@@ -77,13 +79,15 @@ function drawArea(lngLats, color) {
 
 /**
  * 初始化地图
+ * https://lbs.amap.com/api/javascript-api/guide/map/map-style/
+ * 官方默认自定义样式 标准 normal, 幻影黑 dark, 月光银 light, 远山黛 whitesmoke, 草色青 fresh, 雅士灰 grey, 涂鸦 graffiti, 马卡龙 macaron, 靛青蓝 blue, 极夜蓝 darkblue, 酱籽 wine
  */
 function initMap() {
     map = new AMap.Map('serviceAreaMapContainer', {
         center: [107.05191814999961, 38.69095289361865],
         zoom: 4,
         resizeEnable: true,
-        mapStyle: 'blue_night',
+        mapStyle: 'normal', // https://lbs.amap.com/getting-started/mapstyle
     });
 
     var geolocation = new AMap.Geolocation({
@@ -168,6 +172,7 @@ function search(adcodeLevel, keyword, selectId) {
         // 高德行政区划查询插件实例
         subdistrict: 1, // 返回下一级行政区
     });
+    currentLevel = keyword;
     // 第三级时查询边界点，不显示边界
     district.setExtensions(adcodeLevel == 'district' || adcodeLevel == 'city' || adcodeLevel == 'province' ? 'all' : 'base');
     district.setLevel(adcodeLevel); // 行政区级别
@@ -178,6 +183,11 @@ function search(adcodeLevel, keyword, selectId) {
             map.setCenter(districtData.center);
             clearMap();
             addPolygon(districtData.boundaries);
+
+            // 只有选中市时，才搜索学校
+            // if (['city', 'province', 'district'].indexOf(adcodeLevel) > -1) {
+                searchSite(districtData.adcode);
+            // }
 
             if (selectId) {
                 if (districtData.districtList) {
@@ -190,6 +200,7 @@ function search(adcodeLevel, keyword, selectId) {
             }
         } else {
             clearMap();
+            console.error(status + ': ' + result.message);
         }
     });
 }
@@ -224,12 +235,68 @@ function initAutoComplete() {
 }
 
 /**
+ * 当前位置
+ */
+function currentLocate() {
+    var current = document.getElementById('current');
+    if (current.location) {
+        return;
+    }
+    new AMap.Geolocation({
+        enableHighAccuracy: true,
+        timeout: 10000, // 超过10秒后停止定位，默认：无穷大
+        showButton: false, // 显示定位按钮，默认：true
+        panToLocation: true, // 定位成功后将定位到的位置作为地图中心点，默认：true
+        zoomToAccuracy: true,
+    }).getCurrentPosition(function (status, result) {
+        // map.setCenter(result.position);
+        // map.setZoomAndCenter(18);
+        addMarker(result.position);
+        var address = result.addressComponent;
+        if (address) {
+            current.innerHTML =
+                address.province +
+                address.city +
+                address.district +
+                address.township +
+                address.street +
+                address.streetNumber;
+            current.position = result.position;
+            // 规划路径
+            setRoute();
+            // 清空之前的定位错误提示
+            if (document.getElementById('mainError').innerHTML.indexOf('定位') > -1) {
+                mainError();
+            }
+        } else {
+            mainError('定位失败，请稍后重试');
+            setTimeout(currentLocate, 60 * 1000);
+            console.error(status + ': ' + result.message);
+        }
+    });
+}
+
+/**
+ * 全局错误提示
+ */
+function mainError(msg) {
+    document.getElementById('mainError').innerHTML = msg || '';
+}
+
+/**
+ * 路径规划 TODO: 选择学校候进行
+ */
+function setRoute() {
+}
+
+/**
  * 显示地区区域
  */
 function showData() {
     // 省市区数据初始化
     search('country', '中国', 'province');
     initAutoComplete();
+    currentLocate();
 
     // 如果其他系统带过来的经纬度
     var queryParams = getUrlParam();
@@ -243,6 +310,43 @@ function showData() {
 
 function clear(selectId) {
     document.getElementById(selectId).innerHTML = '<option>请选择' + hits[selectId] + '</option>';
+}
+
+/**
+ * 搜索学校
+ * PlaceSearch 接口 https://lbs.amap.com/api/javascript-api/reference/search/#m_AMap.PlaceSearch
+ * POI分类编码 https://lbs.amap.com/api/webservice/download
+ */
+function searchSite(adcode, type) {
+    // 郊区、市区，是虚拟的直辖市下属市，忽略
+    if (!adcode || adcode === '100000' || adcode.endsWith('0100') || adcode.endsWith('0200')) {
+        // 没有选中省份时，不能调用学校
+        return;
+    }
+    clear('site');
+    type = type || $('#serviceAreaBtnContainer input:checked').val() || 141200;
+    new AMap.PlaceSearch({
+        type: type,
+        types: type,
+        limit: true,
+        citylimit: true,
+        city: adcode,
+        map: map,
+    }).search('学校', function (status, result) {
+        if (result && result.poiList && result.poiList.pois) {
+            var list = [];
+            // 过滤列表中无图片学校
+            for (var i = 0; i < result.poiList.pois.length; i++) {
+                if (result.poiList.pois[i].photos.length) {
+                    list.push(result.poiList.pois[i]);
+                }
+            }
+            createSelectList('site', list);
+            // setView();
+        } else {
+            console.error(status + ': ' + result.message);
+        }
+    });
 }
 
 /**
@@ -322,7 +426,11 @@ function addEvents() {
         map.setZoomAndCenter(6);
     });
     $('#city').change(function () {
-        search('city', this.value, 'district');
+        var value = this.value;
+        if (!value || value.endsWith('100')) {
+            // value = $('#province').val();
+        }
+        search('city', value, 'district');
         clear('biz_area');
         map.setZoomAndCenter(9);
     });
@@ -332,6 +440,9 @@ function addEvents() {
     });
     $('#biz_area').change(function () {
         map.setCenter(this[this.options.selectedIndex].center);
+    });
+    $('#serviceAreaBtnContainer input').click(function () {
+        searchSite(currentLevel);
     });
     $('#locatorBtnOk').click(searchLocal);
 }

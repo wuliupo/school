@@ -34,6 +34,27 @@ select {
 .amap-logo {
     pointer-events: none;
 }
+.tips-block {
+    background-color: #fff;
+    margin-bottom: 10px;
+    padding: 0 10px;
+    word-break: keep-all;
+    white-space: nowrap;
+    height: 33px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    background-color: #fff;
+    color: #666;
+}
+#mainError {
+    position: absolute;
+    z-index: 1;
+    width: 100%;
+    color: #f00;
+}
+#mainError:empty {
+    display: none;
+}
 #toolbarContainer {
     position: absolute;
     top: 10px;
@@ -44,8 +65,8 @@ select {
     line-height: 33px;
 }
 #serviceAreaBtnContainer {
-    margin-top: 10px;
-    background-color: rgba(0, 0, 0, 0.2);
+    margin: 10px 0;
+    background-color: rgba(0, 0, 0, 0.8);
 }
 #serviceAreaBtnContainer input,
 #serviceAreaBtnContainer label {
@@ -200,8 +221,8 @@ select {
     display: none;
 }
 #serviceAreaBtnContainer label {
-    padding: 0 10px 0 30px;
-    margin-left: 10px;
+    padding: 0 2px 0 26px;
+    margin-left: 2px;
     display: inline-block;
     position: relative;
 }

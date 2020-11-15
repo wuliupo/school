@@ -12,6 +12,25 @@
   <body>
     <div id="serviceAreaMapContainer" class="map"></div>
     <div id="toolbarContainer" class="up">
+        <div id="mainError" class="tips-block"></div>
+        <div id="current" class="tips-block"></div>
+        <form id="serviceAreaBtnContainer">
+            <label>
+                <input value="141204" type="radio" name="type" ><span style="color: #b9bf63">幼儿园</span>
+            </label>
+            <label>
+                <input value="141203" type="radio" name="type"><span style="color: #69E2D6">小学</span>
+            </label>
+            <label>
+                <input value="141202" type="radio" name="type" ><span style="color: #5797EF">中学</span>
+            </label>
+            <label>
+                <input value="141206" type="radio" name="type" ><span style="color: #e269b0">职技</span>
+            </label>
+            <label>
+                <input value="141201" type="radio" name="type" ><span style="color: #8969e2">大学</span>
+            </label>
+        </form>
         <form id="typeBar">
             <label><input name="type" type="radio" value=".districts-list" checked><span>省市区查询</span></label>
             <label class="lng-lat"><input name="type" type="radio" value=".locator-content"><span>经纬度查询</span></label>
@@ -42,6 +61,12 @@
                     <option>请选择商圈</option>
                 </select>
             </label>
+            <label>
+                <span>学校</span>
+                <select id="site">
+                    <option>请选择商圈</option>
+                </select>
+            </label>
         </form>
         <form class="custom-search tool hidden">
             <label>
@@ -64,10 +89,8 @@
             </label>
             <button type="button" id="locatorBtnOk">确定</button>
         </form>
-        <div id="serviceAreaBtnContainer"></div>
     </div>
     <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://webapi.amap.com/maps?v=1.4.15&plugin=AMap.Driving,AMap.DistrictSearch,AMap.Autocomplete,AMap.Geolocation,AMap.ToolBar,AMap.PlaceSearch&key=f98de2203be7ed5b7b6f8c6066b8b7f5"></script>
-    <script src="https://cdn.wzw.cn/material/nyx.js"></script>
+    <script src="https://webapi.amap.com/maps?v=1.4.15&plugin=AMap.Driving,AMap.DistrictSearch,AMap.Autocomplete,AMap.Geolocation,AMap.ToolBar,AMap.PlaceSearch&key=6019be964137e45e8588e0adb343090b"></script>
   </body>
 </html>
