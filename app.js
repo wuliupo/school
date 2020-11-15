@@ -172,6 +172,7 @@ function search(adcodeLevel, keyword, selectId) {
         // 高德行政区划查询插件实例
         subdistrict: 1, // 返回下一级行政区
     });
+    map.clearMap();
     currentLevel = keyword;
     // 第三级时查询边界点，不显示边界
     district.setExtensions(adcodeLevel == 'district' || adcodeLevel == 'city' || adcodeLevel == 'province' ? 'all' : 'base');
@@ -324,6 +325,7 @@ function searchSite(adcode, type) {
         return;
     }
     clear('site');
+    map.clearMap();
     type = type || $('#serviceAreaBtnContainer input:checked').val() || 141200;
     new AMap.PlaceSearch({
         type: type,
@@ -341,6 +343,7 @@ function searchSite(adcode, type) {
                     list.push(result.poiList.pois[i]);
                 }
             }
+            clearMap();
             createSelectList('site', list);
             // setView();
         } else {
